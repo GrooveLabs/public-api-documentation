@@ -1,165 +1,141 @@
 ---
-title: API Reference
+title: Groove API Reference
 
-language_tabs: # must be one of https://git.io/vQNgJ
+language_tabs:
   - shell
-  - ruby
-  - python
-  - javascript
 
 toc_footers:
-  - <a href='#'>Sign Up for a Developer Key</a>
-  - <a href='https://github.com/lord/slate'>Documentation Powered by Slate</a>
-
-includes:
-  - errors
+  - <a href="support@groove.com"'>Become an API partner</a>
 
 search: true
 ---
 
 # Introduction
 
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
+Welcome to the Groove API!
 
-We have language bindings in Shell, Ruby, Python, and JavaScript! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+Hopefully, this documentation can help you get up and running as quickly as possible.
 
-This example API documentation page was created with [Slate](https://github.com/lord/slate). Feel free to edit it and use it as a base for your own API's documentation.
+Feel free to reach out to <a href="support@groove.com">our support team</a> if you have any additional questions.
 
 # Authentication
 
-> To authorize, use this code:
+Right now, we support the ability for registered API partners to access our API on behalf of Groove users via an access token. If you are interested in becoming a registered API partner, please <a href="support@groove.com">contact us</a>.
 
-```ruby
-require 'kittn'
+## OAuth Flow
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-```
+We use [the OAuth 2.0 protocol](https://tools.ietf.org/html/rfc6749) to generate access tokens.
 
-```python
-import kittn
+### Step 1: Redirect Users
 
-api = kittn.authorize('meowmeowmeow')
-```
+To initiate the authorization process, redirect users to `https://app.grooveapp.com/oauth/authorize`.
 
-```shell
-# With shell, you can just pass the correct header with each request
-curl "api_endpoint_here"
-  -H "Authorization: meowmeowmeow"
-```
+Provide the following query parameters
 
-```javascript
-const kittn = require('kittn');
+* `client_id`
+* `redirect_uri` - URI to redirect any authorization data to at the end of the process
+* `scope` - space-separated list of scopes (see relevant section below)
+* `state` - String to be passed back upon completion
 
-let api = kittn.authorize('meowmeowmeow');
-```
+### Step 2: Handle User Authorization
 
-> Make sure to replace `meowmeowmeow` with your API key.
+If the user authorizes your application, Groove will redirect to the specified `redirect_uri`.
 
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
+This redirection will contain a temporary `code` query parameter. These authorization `code`s may only be exchanged once, and will expire after 10 minutes.
 
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
+This redirection will also contain the previously passed `state` value, as a query parameter. If this `state` value does not match, the request may be compromised and you should abort the authorization
 
-`Authorization: meowmeowmeow`
+### Step 3: Exchange the authorization code for an access token
 
-<aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
-</aside>
-
-# Kittens
-
-## Get All Kittens
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get()
-```
+Make a `POST` request to `https://app.grooveapp.com/oauth/authorize/token`
 
 ```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
+curl -X POST "https://app.grooveapp.com/oauth/authorize"
+  -H 'Content-Type: application/json'
+  -d '{ "client_id": "SomeClientId", "client_secret": "SomeClientSecret" }'
 ```
 
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
-```
-
-> The above command returns JSON structured like this:
+> The returned `JSON` will look something like
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
+{
+  "access_token": "some-access-token",
+  "created_at": "685238400",
+  "token_type": "Bearer",
+  "expires_in": 7200,
+  "refresh_token": "some-refresh-token",
+  "scope": "first-scope second-scope",
+}
 ```
 
-This endpoint retrieves all kittens.
+The request body should include the following values
 
-### HTTP Request
+* `grant_type=authorization_code`
+* `code={PreviousAuthorizationCode}` - Use the previous `code` query parameter values
+* `redirect_uri={PreviousRedirectURI}` - Must match the previously defined `redirect_uri`
+* `client_id={YourClientId`
+* `client_secret={YourClientSecret}`
+* **Please avoid exposing your client secret**
 
-`GET http://example.com/api/kittens`
+The returned response body should contain a `JSON` payload with the following key/value pairs
 
-### Query Parameters
+  * `access_token` - the value represents the string to add to the `Authorization` header of future API requests
+  * `created_at` - the value represents the Unix timestamp when the access token was created
+  * `token_type` - the value will be `Bearer`
+  * `expires_in` - the value indicates the number of seconds until the access token will be invalid
+  * `refresh_token` - the value indicates the string to use to generate another access token
+  * `scope` - a space-separated string indicating the scopes that the access token can use
 
-Parameter | Default | Description
---------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+* Use the generated `access_token` value to make API requests on behalf of the authorized user in the `Authorization` header with the header value having the following format - `Authorization: Bearer {YourAccessToken}`
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
+## Access Token Expiration
 
-## Get a Specific Kitten
+An access token expires 12 minutes after creation. The expiration time is specified by the `expires_in` field in the token creation response body.
 
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
-```
+In order to generate a new access token, use the refresh token, specified by the `refresh_token` field in the token creation response body, to make a `POST` request to `/oauth/token/refresh` with the refresh token
 
 ```shell
-curl "http://example.com/api/kittens/2"
-  -H "Authorization: meowmeowmeow"
+curl -X POST "https://app.grooveapp.com/oauth/token/refresh"
+  -H 'Content-Type: application/json'
+  -d '{ "refresh_token": "SomeRefreshToken" }'
 ```
 
-```javascript
-const kittn = require('kittn');
+# API
 
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.get(2);
-```
+Our GraphQL API only has one endpoint - `https://app.groove.com/api/public/v1/graphql`.
+
+One of the benefits of GraphQL is that allows the client to specify _exactly_ what fields they would like as part of the response payload.
+
+Another benefit of GraphQL is it's statically-generated schema that allows introspection into the various query and mutation operations available.
+
+You can checkout our GraphQL documentation here.
+
+Again, the GraphQL schema, and the above documentation, will specify the exact objects and their respective fields for queries and mutations. The following example API responses _are not_ an exhaustive representation.
+
+## Queries
+
+### Search for People
+
+#### Parameters
+
+Parameter | Description
+--------- | -----------
+Name | The name of the person to search for
+
+#### Response
+
+## Mutations
+
+### Add a Person to a Flow
+
+#### Parameters
+
+Parameter | Description
+--------- | -----------
+personId | The ID of the Person to be added to the specified Flow
+flowId | The ID of the Flow that the person will be added to
+
+#### Response
 
 > The above command returns JSON structured like this:
 
@@ -173,67 +149,8 @@ let max = api.kittens.get(2);
 }
 ```
 
-This endpoint retrieves a specific kitten.
+## Errors
 
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
+# Rate Limiting
 
-### HTTP Request
-
-`GET http://example.com/kittens/<ID>`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to retrieve
-
-## Delete a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/2"
-  -X DELETE
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.delete(2);
-```
-
-> The above command returns JSON structured like this:
-
-```json
-{
-  "id": 2,
-  "deleted" : ":("
-}
-```
-
-This endpoint deletes a specific kitten.
-
-### HTTP Request
-
-`DELETE http://example.com/kittens/<ID>`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to delete
-
+We do not allow more than `100` API requests, per minute, per OAuth token.
