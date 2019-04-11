@@ -28,7 +28,7 @@ We use [the OAuth 2.0 protocol](https://tools.ietf.org/html/rfc6749) to generate
 
 ### Step 1: Redirect Users
 
-To initiate the authorization process, redirect users to `https://app.grooveapp.com/oauth/authorize`.
+To initiate the authorization process, redirect users to `https://auth.grooveapp.com/oauth/authorize`.
 
 Provide the following query parameters
 
@@ -47,10 +47,10 @@ This redirection will also contain the previously passed `state` value, as a que
 
 ### Step 3: Exchange the authorization code for an access token
 
-Make a `POST` request to `https://app.grooveapp.com/oauth/authorize/token`
+Make a `POST` request to `https://auth.grooveapp.com/oauth/authorize/token`
 
 ```shell
-curl -X POST "https://app.grooveapp.com/oauth/authorize"
+curl -X POST "https://auth.grooveapp.com/oauth/authorize"
   -H 'Content-Type: application/json'
   -d '{ "client_id": "SomeClientId", "client_secret": "SomeClientSecret" }'
 ```
@@ -95,7 +95,7 @@ An access token expires 12 minutes after creation. The expiration time is specif
 In order to generate a new access token, use the refresh token, specified by the `refresh_token` field in the token creation response body, to make a `POST` request to `/oauth/token/refresh` with the refresh token
 
 ```shell
-curl -X POST "https://app.grooveapp.com/oauth/token/refresh"
+curl -X POST "https://auth.grooveapp.com/oauth/token/refresh"
   -H 'Content-Type: application/json'
   -d '{ "refresh_token": "SomeRefreshToken" }'
 ```
