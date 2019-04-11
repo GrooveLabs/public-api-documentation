@@ -5,7 +5,7 @@ language_tabs:
   - shell
 
 toc_footers:
-  - <a href="support@groove.com"'>Become an API partner</a>
+  - <a href="mailto:support@groove.com"'>Become an API partner</a>
 
 search: true
 ---
@@ -16,11 +16,11 @@ Welcome to the Groove API!
 
 Hopefully, this documentation can help you get up and running as quickly as possible.
 
-Feel free to reach out to <a href="support@groove.com">our support team</a> if you have any additional questions.
+Feel free to reach out to <a href="mailto:support@groove.com">our support team</a> if you have any additional questions.
 
 # Authentication
 
-Right now, we support the ability for registered API partners to access our API on behalf of Groove users via an access token. If you are interested in becoming a registered API partner, please <a href="support@groove.com">contact us</a>.
+Right now, we support the ability for registered API partners to access our API on behalf of Groove users via an access token. If you are interested in becoming a registered API partner, please <a href="mailto:support@groove.com">contact us</a>.
 
 ## OAuth Flow
 
