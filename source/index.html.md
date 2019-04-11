@@ -37,7 +37,7 @@ Provide the following query parameters
 | client_id     | the client ID configured for your OAuth App                                                  |
 | redirect_uri  | the redirect URI configured for your OAuth App                                               |
 | scope         | space-separated list of scopes (see relevant section below)                                  |
-| state         | String to be passed back upon completion                                                     |
+| state         | an optional string to be passed back upon completion                                         |
 
 ### Step 2: Handle User Authorization
 
