@@ -95,7 +95,7 @@ The returned response body should contain a `JSON` payload with the following ke
 | access_token  | the value represents the string to add to the `Authorization`  header of future API requests |
 | created_at    | the value represents the Unix timestamp when the access token was created                    |
 | token_type    | the value will be `Bearer`                                                                   |
-| expires_in    | the value indicates the string to use to generate another access token                       |
+| expires_in    | the value indicates the number of seconds until the access token will be invalid             |
 | refresh_token | the value indicates the string to use to generate another access token                       |
 | scope         | a space-separated string indicating the scopes that the access token can use                 |
 
