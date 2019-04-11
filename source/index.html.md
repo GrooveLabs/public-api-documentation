@@ -101,7 +101,7 @@ The returned response body should contain a `JSON` payload with the following ke
 
 ## Making Authenticated API Calls
 
-Use the generated `access_token` value to make API requests on behalf of the authorized user in the `Authorization` header with the header value having the following format
+Use the generated `access_token` value to make API requests on behalf of the authorized user in the `Authorization` header with the header value having the following format: `Authorization: Bearer {YOUR_ACCESS_TOKEN}`
 
 > A authenticated CURL may look like:
 
@@ -117,7 +117,7 @@ curl -X POST "https://app.grooveapp.com/api/public/..."
 
 An access token expires 2 hours after creation. The expiration time is specified by the `expires_in` field in the token creation response body.
 
-In order to generate a new access token, use the refresh token, specified by the `refresh_token` field in the token creation response body, to make a `POST` request to `/oauth/token/refresh` with the refresh token
+In order to generate a new access token, use the refresh token, specified by the `refresh_token` field in the token creation response body, to make a `POST` request to `/oauth/token/refresh` with the refresh token.
 
 
 | key           | value                                                                                        |
