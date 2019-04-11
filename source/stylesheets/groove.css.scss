@@ -1,0 +1,23 @@
+$groove-color: #03A3BB;
+
+html {
+  font-family: 'Roboto', sans-serif;
+}
+
+a {
+  color: $groove-color;
+}
+
+.logo-wrapper {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+
+.logo {
+  width: 131px;
+  height: 43px;
+}
