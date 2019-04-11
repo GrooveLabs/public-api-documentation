@@ -2,7 +2,7 @@
 title: Groove API Reference
 
 language_tabs:
-  - shell
+  - cURL
 
 toc_footers:
   - <a href="mailto:support@groove.com"'>Become an API partner</a>
