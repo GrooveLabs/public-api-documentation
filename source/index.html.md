@@ -32,10 +32,12 @@ To initiate the authorization process, redirect users to `https://auth.grooveapp
 
 Provide the following query parameters
 
-* `client_id`
-* `redirect_uri` - URI to redirect any authorization data to at the end of the process
-* `scope` - space-separated list of scopes (see relevant section below)
-* `state` - String to be passed back upon completion
+| key           | value                                                                                        |
+|---------------|----------------------------------------------------------------------------------------------|
+| client_id     | the client ID configured for your OAuth App                                                  |
+| redirect_uri  | the redirect URI configured for your OAuth App                                               |
+| scope         | space-separated list of scopes (see relevant section below)                                  |
+| state         | String to be passed back upon completion                                                     |
 
 ### Step 2: Handle User Authorization
 
@@ -68,23 +70,28 @@ curl -X POST "https://auth.grooveapp.com/oauth/authorize"
 }
 ```
 
-The request body should include the following values
+The request body should include the following values:
 
-* `grant_type=authorization_code`
-* `code={PreviousAuthorizationCode}` - Use the previous `code` query parameter values
-* `redirect_uri={PreviousRedirectURI}` - Must match the previously defined `redirect_uri`
-* `client_id={YourClientId`
-* `client_secret={YourClientSecret}`
-* **Please avoid exposing your client secret**
+| key           | value                                                                                        |
+|---------------|----------------------------------------------------------------------------------------------|
+| grant_type    | `authorization_code`                                                                         |
+| code          | the code you were provided in the previous step                                              |
+| redirect_uri  | the redirect URI configured for your OAuth App                                               |
+| client_id     | the client ID configured for your OAuth App                                                  |
+| client_secret | the client Secret configured for your OAuth App                                              |
+
+**Note: Please avoid exposing your client secret**
 
 The returned response body should contain a `JSON` payload with the following key/value pairs
 
-  * `access_token` - the value represents the string to add to the `Authorization` header of future API requests
-  * `created_at` - the value represents the Unix timestamp when the access token was created
-  * `token_type` - the value will be `Bearer`
-  * `expires_in` - the value indicates the number of seconds until the access token will be invalid
-  * `refresh_token` - the value indicates the string to use to generate another access token
-  * `scope` - a space-separated string indicating the scopes that the access token can use
+| key           | value                                                                                        |
+|---------------|----------------------------------------------------------------------------------------------|
+| access_token  | the value represents the string to add to the `Authorization`  header of future API requests |
+| created_at    | the value represents the Unix timestamp when the access token was created                    |
+| token_type    | the value will be `Bearer`                                                                   |
+| expires_in    | the value indicates the string to use to generate another access token                       |
+| refresh_token | the value indicates the string to use to generate another access token                       |
+| scope         | a space-separated string indicating the scopes that the access token can use                 |
 
 * Use the generated `access_token` value to make API requests on behalf of the authorized user in the `Authorization` header with the header value having the following format - `Authorization: Bearer {YourAccessToken}`
 
