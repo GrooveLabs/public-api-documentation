@@ -131,7 +131,13 @@ In order to generate a new access token, use the refresh token, specified by the
 ```shell
 curl -X POST "https://auth.grooveapp.com/oauth/token/refresh"
   -H 'Content-Type: application/json'
-  -d '{ "refresh_token": "SomeRefreshToken" }'
+  -d '{
+    "grant_type": "refresh_token",
+    "refresh_token": "SomeRefreshToken",
+    "redirect_url": "SomeRedirectUri",
+    "client_id": "SomeClientId",
+    "client_secret": "SomeClientSecret"
+  }'
 ```
 
 # API
