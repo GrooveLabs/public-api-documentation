@@ -8,12 +8,16 @@ a {
   color: $groove-color;
 }
 
+.toc-wrapper .toc-link.active {
+  background-color: $groove-color;
+}
+
 .logo-wrapper {
   display: flex;
   width: 100%;
   justify-content: center;
   align-items: center;
-  padding-top: 16px;
+  padding-top: 24px;
   padding-bottom: 16px;
 }
 
