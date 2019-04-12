@@ -142,7 +142,7 @@ curl -X POST "https://auth.grooveapp.com/oauth/token"
 
 # API
 
-Our GraphQL API only has one endpoint - `https://app.groove.com/api/public/v1/graphql`.
+Our GraphQL API only has one endpoint - `https://app.grooveapp.com/api/public/v1/graphql`.
 
 One of the benefits of GraphQL is that allows the client to specify _exactly_ what fields they would like as part of the response payload.
 
