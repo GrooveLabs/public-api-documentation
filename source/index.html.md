@@ -117,7 +117,7 @@ curl -X POST "https://app.grooveapp.com/api/public/..."
 
 An access token expires 2 hours after creation. The expiration time is specified by the `expires_in` field in the token creation response body.
 
-In order to generate a new access token, use the refresh token, specified by the `refresh_token` field in the token creation response body, to make a `POST` request to `/oauth/token/refresh` with the refresh token.
+In order to generate a new access token, use the refresh token, specified by the `refresh_token` field in the token creation response body, to make a `POST` request to `/oauth/token` with the refresh token.
 
 
 | key           | value                                                                                        |
@@ -129,7 +129,7 @@ In order to generate a new access token, use the refresh token, specified by the
 | client_secret | the client secret configured for your OAuth App                                              |
 
 ```shell
-curl -X POST "https://auth.grooveapp.com/oauth/token/refresh"
+curl -X POST "https://auth.grooveapp.com/oauth/token"
   -H 'Content-Type: application/json'
   -d '{
     "grant_type": "refresh_token",
