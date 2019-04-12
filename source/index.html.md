@@ -2,10 +2,10 @@
 title: Groove API Reference
 
 language_tabs:
-  - shell
+  - cURL
 
 toc_footers:
-  - <a href="support@groove.com"'>Become an API partner</a>
+  - <a href="mailto:support@groove.com"'>Become an API partner</a>
 
 search: true
 ---
@@ -16,11 +16,11 @@ Welcome to the Groove API!
 
 Hopefully, this documentation can help you get up and running as quickly as possible.
 
-Feel free to reach out to <a href="support@groove.com">our support team</a> if you have any additional questions.
+Feel free to reach out to <a href="mailto:support@groove.com">our support team</a> if you have any additional questions.
 
 # Authentication
 
-Right now, we support the ability for registered API partners to access our API on behalf of Groove users via an access token. If you are interested in becoming a registered API partner, please <a href="support@groove.com">contact us</a>.
+Right now, we support the ability for registered API partners to access our API on behalf of Groove users via an access token. If you are interested in becoming a registered API partner, please <a href="mailto:support@groove.com">contact us</a>.
 
 ## OAuth Flow
 
@@ -28,14 +28,16 @@ We use [the OAuth 2.0 protocol](https://tools.ietf.org/html/rfc6749) to generate
 
 ### Step 1: Redirect Users
 
-To initiate the authorization process, redirect users to `https://app.grooveapp.com/oauth/authorize`.
+To initiate the authorization process, redirect users to `https://auth.grooveapp.com/oauth/authorize`.
 
 Provide the following query parameters
 
-* `client_id`
-* `redirect_uri` - URI to redirect any authorization data to at the end of the process
-* `scope` - space-separated list of scopes (see relevant section below)
-* `state` - String to be passed back upon completion
+| key           | value                                                                                        |
+|---------------|----------------------------------------------------------------------------------------------|
+| client_id     | the client ID configured for your OAuth App                                                  |
+| redirect_uri  | the redirect URI configured for your OAuth App                                               |
+| scope         | space-separated list of scopes (see relevant section below)                                  |
+| state         | an optional string to be passed back upon completion                                         |
 
 ### Step 2: Handle User Authorization
 
@@ -47,12 +49,18 @@ This redirection will also contain the previously passed `state` value, as a que
 
 ### Step 3: Exchange the authorization code for an access token
 
-Make a `POST` request to `https://app.grooveapp.com/oauth/authorize/token`
+Make a `POST` request to `https://auth.grooveapp.com/oauth/authorize/token`
 
 ```shell
-curl -X POST "https://app.grooveapp.com/oauth/authorize"
+curl -X POST "https://auth.grooveapp.com/oauth/authorize"
   -H 'Content-Type: application/json'
-  -d '{ "client_id": "SomeClientId", "client_secret": "SomeClientSecret" }'
+  -d '{
+    "grant_type": "authorization_code",
+    "code": "SomeAuthorizationCode",
+    "redirect_url": "SomeRedirectUri",
+    "client_id": "SomeClientId",
+    "client_secret": "SomeClientSecret"
+  }'
 ```
 
 > The returned `JSON` will look something like
@@ -68,36 +76,68 @@ curl -X POST "https://app.grooveapp.com/oauth/authorize"
 }
 ```
 
-The request body should include the following values
+The request body should include the following values:
 
-* `grant_type=authorization_code`
-* `code={PreviousAuthorizationCode}` - Use the previous `code` query parameter values
-* `redirect_uri={PreviousRedirectURI}` - Must match the previously defined `redirect_uri`
-* `client_id={YourClientId`
-* `client_secret={YourClientSecret}`
-* **Please avoid exposing your client secret**
+| key           | value                                                                                        |
+|---------------|----------------------------------------------------------------------------------------------|
+| grant_type    | `authorization_code`                                                                         |
+| code          | the code you were provided in the previous step                                              |
+| redirect_uri  | the redirect URI configured for your OAuth App                                               |
+| client_id     | the client ID configured for your OAuth App                                                  |
+| client_secret | the client secret configured for your OAuth App                                              |
+
+**Note: Please avoid exposing your client secret**
 
 The returned response body should contain a `JSON` payload with the following key/value pairs
 
-  * `access_token` - the value represents the string to add to the `Authorization` header of future API requests
-  * `created_at` - the value represents the Unix timestamp when the access token was created
-  * `token_type` - the value will be `Bearer`
-  * `expires_in` - the value indicates the number of seconds until the access token will be invalid
-  * `refresh_token` - the value indicates the string to use to generate another access token
-  * `scope` - a space-separated string indicating the scopes that the access token can use
+| key           | value                                                                                        |
+|---------------|----------------------------------------------------------------------------------------------|
+| access_token  | the value represents the string to add to the `Authorization`  header of future API requests |
+| created_at    | the value represents the Unix timestamp when the access token was created                    |
+| token_type    | the value will be `Bearer`                                                                   |
+| expires_in    | the value indicates the number of seconds until the access token will be invalid             |
+| refresh_token | the value indicates the string to use to generate another access token                       |
+| scope         | a space-separated string indicating the scopes that the access token can use                 |
 
-* Use the generated `access_token` value to make API requests on behalf of the authorized user in the `Authorization` header with the header value having the following format - `Authorization: Bearer {YourAccessToken}`
+## Making Authenticated API Calls
+
+Use the generated `access_token` value to make API requests on behalf of the authorized user in the `Authorization` header with the header value having the following format: `Authorization: Bearer {YOUR_ACCESS_TOKEN}`
+
+> An authenticated CURL may look like:
+
+```
+curl -X POST "https://app.grooveapp.com/api/public/..."
+  -H 'Content-Type: application/json'
+  -H 'Authorization: Bearer {YOUR_ACCESS_TOKEN}'
+  -d ...
+```
+
 
 ## Access Token Expiration
 
-An access token expires 12 minutes after creation. The expiration time is specified by the `expires_in` field in the token creation response body.
+An access token expires 2 hours after creation. The expiration time is specified by the `expires_in` field in the token creation response body.
 
-In order to generate a new access token, use the refresh token, specified by the `refresh_token` field in the token creation response body, to make a `POST` request to `/oauth/token/refresh` with the refresh token
+In order to generate a new access token, use the refresh token, specified by the `refresh_token` field in the token creation response body, to make a `POST` request to `/oauth/token` with the refresh token.
+
+
+| key           | value                                                                                        |
+|---------------|----------------------------------------------------------------------------------------------|
+| grant_type    | `refresh_token`                                                                         |
+| refresh_token | YOUR_REFRESH_TOKEN
+| redirect_uri  | the redirect URI configured for your OAuth App                                               |
+| client_id     | the client ID configured for your OAuth App                                                  |
+| client_secret | the client secret configured for your OAuth App                                              |
 
 ```shell
-curl -X POST "https://app.grooveapp.com/oauth/token/refresh"
+curl -X POST "https://auth.grooveapp.com/oauth/token"
   -H 'Content-Type: application/json'
-  -d '{ "refresh_token": "SomeRefreshToken" }'
+  -d '{
+    "grant_type": "refresh_token",
+    "refresh_token": "SomeRefreshToken",
+    "redirect_url": "SomeRedirectUri",
+    "client_id": "SomeClientId",
+    "client_secret": "SomeClientSecret"
+  }'
 ```
 
 # API
