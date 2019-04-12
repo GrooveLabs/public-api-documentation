@@ -193,4 +193,10 @@ flowId | The ID of the Flow that the person will be added to
 
 # Rate Limiting
 
-We do not allow more than `100` API requests, per minute, per OAuth token.
+In general, we do not allow more than `100` API requests, per minute, per OAuth token. For every request made, these response headers will be returned:
+
+Header | Description
+--------- | -----------
+`X-RateLimit-Limit` | The maximum number of API calls able to be made in the current minute
+`X-RateLimit-Remaining` | The number of API calls left in the current minute
+`X-RateLimit-Reset` | The time (in epoch seconds) at which API calls will be available again
