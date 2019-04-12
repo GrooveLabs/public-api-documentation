@@ -201,4 +201,8 @@ Header | Description
 `X-RateLimit-Remaining` | The number of API calls left in the current minute
 `X-RateLimit-Reset` | The time (in epoch seconds) at which API calls are guaranteed to be available again
 
+We perform a sliding window calculation across the current and last minutes to prevent call bursts around the minute boundary. If a limit is hit, the reset value is calculated to be the moment in time when the sliding average dips below the limit.
+
 Exceeding the limit will yield an empty response with status code `429`.
+
+**Note: We continue to count any API calls made while the limit is exceeded.**
