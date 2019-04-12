@@ -199,6 +199,6 @@ Header | Description
 --------- | -----------
 `X-RateLimit-Limit` | The maximum number of API calls able to be made in the current minute
 `X-RateLimit-Remaining` | The number of API calls left in the current minute
-`X-RateLimit-Reset` | The time (in epoch seconds) at which API calls will be available again
+`X-RateLimit-Reset` | The time (in epoch seconds) at which API calls are guaranteed to be available again
 
 Exceeding the limit will yield an empty response with status code `429`.
