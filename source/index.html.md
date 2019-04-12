@@ -140,6 +140,23 @@ curl -X POST "https://auth.grooveapp.com/oauth/token"
   }'
 ```
 
+# Rate Limiting
+
+In general, we do not allow more than `100` API requests, per minute, per OAuth token. For every request made, these response headers will be returned:
+
+Header | Description
+--------- | -----------
+`X-RateLimit-Limit` | The maximum number of API calls able to be made in the current minute
+`X-RateLimit-Remaining` | The number of API calls left in the current minute
+`X-RateLimit-Reset` | The time (in epoch seconds) at which API calls are guaranteed to be available again
+
+We perform a sliding window calculation across the current and last minutes to prevent call bursts around the minute boundary. If a limit is hit, the reset value is calculated to be the moment in time when the sliding average dips below the limit.
+
+Exceeding the limit will yield an empty response with status code `429`.
+
+**Note: We continue to count any API calls made while the limit is exceeded.**
+
+
 # API
 
 Our GraphQL API only has one endpoint - `https://app.grooveapp.com/api/public/v1/graphql`.
@@ -190,19 +207,3 @@ flowId | The ID of the Flow that the person will be added to
 ```
 
 ## Errors
-
-# Rate Limiting
-
-In general, we do not allow more than `100` API requests, per minute, per OAuth token. For every request made, these response headers will be returned:
-
-Header | Description
---------- | -----------
-`X-RateLimit-Limit` | The maximum number of API calls able to be made in the current minute
-`X-RateLimit-Remaining` | The number of API calls left in the current minute
-`X-RateLimit-Reset` | The time (in epoch seconds) at which API calls are guaranteed to be available again
-
-We perform a sliding window calculation across the current and last minutes to prevent call bursts around the minute boundary. If a limit is hit, the reset value is calculated to be the moment in time when the sliding average dips below the limit.
-
-Exceeding the limit will yield an empty response with status code `429`.
-
-**Note: We continue to count any API calls made while the limit is exceeded.**
