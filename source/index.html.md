@@ -103,7 +103,7 @@ The returned response body should contain a `JSON` payload with the following ke
 
 Use the generated `access_token` value to make API requests on behalf of the authorized user in the `Authorization` header with the header value having the following format: `Authorization: Bearer {YOUR_ACCESS_TOKEN}`
 
-> A authenticated CURL may look like:
+> An authenticated CURL may look like:
 
 ```
 curl -X POST "https://app.grooveapp.com/api/public/..."
