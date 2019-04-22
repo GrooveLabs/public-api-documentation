@@ -162,7 +162,7 @@ Exceeding the limit will yield an empty response with status code `429`.
 
 # Scoping
 
-Currently the scopes we support are the following:
+Scopes are defined at an OAuth App level. The below table describes the scopes and the corresponding GraphQL queries/mutation that they allow.
 
 Scope | Queries | Mutations
 ----- | ------- | ---------
@@ -170,6 +170,10 @@ Scope | Queries | Mutations
 `user::flow:write` | | `addPersonToFlow`
 `user::people:read` | | `findPersonBySalesforceId`
 `user::people:write` | | `createPerson`
+
+When a resource owner is authenticating your OAuth App, they will see a screen like this:
+
+![](consent_dialog.png)
 
 # API
 
@@ -182,3 +186,5 @@ Another benefit of GraphQL is it's statically-generated schema that allows intro
 You can checkout our GraphQL documentation here.
 
 Again, the GraphQL schema, and the above documentation, will specify the exact objects and their respective fields for queries and mutations. The following example API responses _are not_ an exhaustive representation.
+
+## Errors
