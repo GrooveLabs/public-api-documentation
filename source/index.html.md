@@ -160,6 +160,17 @@ Exceeding the limit will yield an empty response with status code `429`.
 **Note: We continue to count any API calls made while the limit is exceeded.**
 
 
+# Scoping
+
+Currently the scopes we support are the following:
+
+Scope | Queries | Mutations
+----- | ------- | ---------
+`user::flow:read` | `flow`, `flows`, `flows.steps`, `findAddableFlowsForPerson` |
+`user::flow:write` | | `addPersonToFlow`
+`user::people:read` | | `findPersonBySalesforceId`
+`user::people:write` | | `createPerson`
+
 # API
 
 Our GraphQL API only has one endpoint - `https://app.grooveapp.com/api/public/v1/graphql`.
@@ -171,6 +182,3 @@ Another benefit of GraphQL is it's statically-generated schema that allows intro
 You can checkout our GraphQL documentation here.
 
 Again, the GraphQL schema, and the above documentation, will specify the exact objects and their respective fields for queries and mutations. The following example API responses _are not_ an exhaustive representation.
-
-## Errors
-
