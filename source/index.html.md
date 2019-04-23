@@ -166,7 +166,7 @@ Scopes are defined at an OAuth App level. The below table describes the scopes a
 
 Scope | Queries | Mutations
 ----- | ------- | ---------
-`user::flow:read` | `flow`, `flows`, `flows.steps`, `findAddableFlowsForPerson` |
+`user::flow:read` | `flow`, `flows`, `findAddableFlowsForPerson` |
 `user::flow:write` | | `addPersonToFlow`
 `user::people:read` | | `findPersonBySalesforceId`
 `user::people:write` | | `createPerson`
@@ -188,3 +188,4 @@ You can checkout our GraphQL documentation here.
 Again, the GraphQL schema, and the above documentation, will specify the exact objects and their respective fields for queries and mutations. The following example API responses _are not_ an exhaustive representation.
 
 ## Errors
+
