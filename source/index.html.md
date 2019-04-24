@@ -160,6 +160,22 @@ Exceeding the limit will yield an empty response with status code `429`.
 **Note: We continue to count any API calls made while the limit is exceeded.**
 
 
+# Scoping
+
+Scopes are defined at an OAuth App level. The below table describes the scopes and the corresponding GraphQL queries/mutation that they allow.
+
+| Scope                | Description                                    | Queries                                      | Mutations                  |
+|----------------------|------------------------------------------------|----------------------------------------------|----------------------------|
+| `user::flow:read`    | View your flows, flow steps, and flow people   | `flow`, `flows`, `findAddableFlowsForPerson` |                            |
+| `user::flow:write`   | Modify your flows, flow steps, and flow people |                                              | `addPersonToFlow`          |
+| `user::people:read`  | View your people                               |                                              | `findPersonBySalesforceId` |
+| `user::people:write` | Modify your people                             |                                              | `createPerson`             |
+
+
+When a resource owner is authenticating your OAuth App, they will see a screen like this:
+
+![](consent_dialog.png)
+
 # API
 
 Our GraphQL API only has one endpoint - `https://app.grooveapp.com/api/public/v1/graphql`.
@@ -173,4 +189,3 @@ You can checkout our GraphQL documentation here.
 Again, the GraphQL schema, and the above documentation, will specify the exact objects and their respective fields for queries and mutations. The following example API responses _are not_ an exhaustive representation.
 
 ## Errors
-
