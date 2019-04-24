@@ -54,7 +54,7 @@ end
 helpers do
   def remote_markdown
     # TODO: @vijaypemmmaraju change this to the URL of the actual docs
-    response = HTTParty.get('https://gist.githubusercontent.com/vijaypemmaraju/5e49be9fed7ca82fe2c990a5105a5f6b/raw/37ee2195cf3094ae5c82756164be7073567ae81d/hi.md')
+    response = HTTParty.get('https://s3-us-west-2.amazonaws.com/developer.grooveapp.com/production/public-api-documentation/docs.md')
 
     if response.code == 200
       response.body
