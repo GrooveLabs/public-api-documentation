@@ -1,6 +1,8 @@
 ruby '>=2.3.1'
 source 'https://rubygems.org'
 
+gem 'httparty'
+
 # Middleman
 gem 'middleman', '~>4.2.1'
 gem 'middleman-syntax', '~> 3.0.0'

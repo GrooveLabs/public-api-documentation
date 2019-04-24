@@ -16,11 +16,7 @@ under the License.
 <% language_tabs = current_page.data.language_tabs || [] %>
 <% page_content = yield %>
 <%
-  if current_page.data.includes
-    current_page.data.includes.each do |include|
-      page_content += partial("includes/#{include}")
-    end
-  end
+  page_content += partial("includes/_graphql.md.erb")
 %>
 
 <!doctype html>

@@ -188,4 +188,3 @@ You can checkout our GraphQL documentation here.
 
 Again, the GraphQL schema, and the above documentation, will specify the exact objects and their respective fields for queries and mutations. The following example API responses _are not_ an exhaustive representation.
 
-## Errors
