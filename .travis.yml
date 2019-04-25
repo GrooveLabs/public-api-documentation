@@ -16,6 +16,6 @@ deploy:
   acl: public_read
   on:
     all_branches: true
-    condition: $TRAVIS_BRANCH = "master" || $TRAVIS_BRANCH = "travis-deploy-to-s3"
+    condition: $TRAVIS_BRANCH = "master"
   after_deploy:
   - echo "*** This build was deployed to $PUBLIC_URL"
