@@ -17,5 +17,3 @@ deploy:
   on:
     all_branches: true
     condition: $TRAVIS_BRANCH = "master"
-  after_deploy:
-  - echo "*** This build was deployed to $PUBLIC_URL"
