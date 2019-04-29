@@ -9,8 +9,6 @@ toc_footers:
 
 search: true
 
-includes:
-  - graphql
 ---
 
 # Introduction

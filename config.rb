@@ -51,19 +51,6 @@ configure :build do
   # activate :gzip
 end
 
-helpers do
-  def remote_markdown
-    # TODO: @vijaypemmmaraju change this to the URL of the actual docs
-    response = HTTParty.get('https://s3-us-west-2.amazonaws.com/developer.grooveapp.com/production/public-api-documentation/docs.md')
-
-    if response.code == 200
-      response.body
-    else
-      '<span style="color:red">Unable to load API docs</span>'
-    end
-  end
-end
-
 # Deploy Configuration
 # If you want Middleman to listen on a different port, you can set that below
 set :port, 4567
