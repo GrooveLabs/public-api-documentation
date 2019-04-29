@@ -13,6 +13,9 @@ $(function() {
     await remoteLoad();
     window.recacheHeights();
     window.refreshToc();
+
+    // make sure remote loaded code has been fetched before
+    // building the search index
     setupSearch();
   });
 });
