@@ -18,8 +18,14 @@ function updateToc(headers) {
 }
 
 async function remoteLoad() {
-  const response = await fetch('https://s3-us-west-2.amazonaws.com/developer.grooveapp.com/production/public-api-documentation/docs.html')
-  const text = await response.text();
+  let text = '<p style="color:red">Unable to load API docs</p>';
+
+  try {
+    const response = await fetch('https://s3-us-west-2.amazonaws.com/developer.grooveapp.com/production/public-api-documentation/docs.html')
+    text = await response.text();
+  } catch (e) {
+    console.error(e);
+  }
   const div = document.createElement('div')
   div.innerHTML = text;
   const headers = [...div.querySelectorAll('h2')].map(h2 => h2.innerText);
