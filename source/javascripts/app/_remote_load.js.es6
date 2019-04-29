@@ -22,7 +22,7 @@ async function remoteLoad() {
 
   try {
     const response = await fetch('https://s3-us-west-2.amazonaws.com/developer.grooveapp.com/production/public-api-documentation/docs.html')
-    if (response.status >= 400) {
+    if (response.status !== 200) {
       throw new Error('Unable to fetch docs');
     }
     text = await response.text();
