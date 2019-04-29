@@ -10,7 +10,7 @@ function updateToc(headers) {
   }
 
 
-  apiLinks.innerHTML += headers.map(header =>
+  apiLinks.innerHTML += headers.map((header) =>
     `<li>
         <a href="#${header.toLowerCase()}" class="toc-h2 toc-link" data-title="${header}">${header}</a>
       </li>`

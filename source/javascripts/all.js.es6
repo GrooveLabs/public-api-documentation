@@ -1,3 +1,6 @@
+//= require babel/polyfill
+
+//= require ./app/_search
 //= require ./lib/_energize
 //= require ./app/_toc
 //= require ./app/_remote_load
@@ -10,6 +13,7 @@ $(function() {
     await remoteLoad();
     window.recacheHeights();
     window.refreshToc();
+    setupSearch();
   });
 });
 

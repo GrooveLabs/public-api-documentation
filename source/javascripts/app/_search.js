@@ -1,7 +1,7 @@
 //= require ../lib/_lunr
 //= require ../lib/_jquery
 //= require ../lib/_jquery.highlight
-;(function () {
+function setupSearch() {
   'use strict';
 
   var content, searchResults;
@@ -94,5 +94,5 @@
   function unhighlight() {
     content.unhighlight(highlightOpts);
   }
-})();
+}
 
