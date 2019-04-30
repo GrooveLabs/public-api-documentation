@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Unique header generation
 require './lib/unique_head.rb'
 
@@ -26,8 +28,6 @@ ready do
   require './lib/multilang.rb'
 end
 
-activate :sprockets
-
 activate :autoprefixer do |config|
   config.browsers = ['last 2 version', 'Firefox ESR']
   config.cascade  = false
@@ -47,6 +47,10 @@ configure :build do
   # activate :relative_assets
   # activate :asset_hash
   # activate :gzip
+end
+
+activate :sprockets do |s|
+  s.supported_output_extensions << '.es6'
 end
 
 # Deploy Configuration
