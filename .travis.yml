@@ -8,7 +8,7 @@ deploy:
   provider: s3
   access_key_id: $AWS_ACCESS_KEY_ID
   secret_access_key: $AWS_SECRET_ACCESS_KEY
-  bucket: developer.grooveapp.com
+  bucket: developer.groove.co
   local-dir: build
   skip_cleanup: true
   region: us-west-2
@@ -16,3 +16,4 @@ deploy:
   on:
     all_branches: true
     condition: $TRAVIS_BRANCH = "master"
+
