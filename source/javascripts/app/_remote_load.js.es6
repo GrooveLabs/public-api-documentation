@@ -21,7 +21,7 @@ async function remoteLoad() {
   let text = '<p style="color:red">Unable to load API docs</p>';
 
   try {
-    const response = await fetch('https://s3-us-west-2.amazonaws.com/developer.grooveapp.com/production/public-api-documentation/docs.html')
+    const response = await fetch('https://s3-us-west-2.amazonaws.com/developer.groove.co/production/public-api-documentation/docs.html')
     if (response.status !== 200) {
       throw new Error('Unable to fetch docs');
     }
