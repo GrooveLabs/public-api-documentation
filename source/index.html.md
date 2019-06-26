@@ -50,18 +50,12 @@ This redirection will also contain the previously passed `state` value, as a que
 
 ### Step 3: Exchange the authorization code for an access token
 
-Make a `POST` request to `https://auth.grooveapp.com/oauth/authorize/token`
+Make a `POST` request to `https://auth.grooveapp.com/oauth/token`
 
 ```shell
-curl -X POST "https://auth.grooveapp.com/oauth/authorize"
-  -H 'Content-Type: application/json'
-  -d '{
-    "grant_type": "authorization_code",
-    "code": "SomeAuthorizationCode",
-    "redirect_url": "SomeRedirectUri",
-    "client_id": "SomeClientId",
-    "client_secret": "SomeClientSecret"
-  }'
+curl -X POST "https://auth.grooveapp.com/oauth/token"
+  -H "Content-Type: application/x-www-form-urlencoded"
+  -d "grant_type=authorization_code&code=SomeAuthorizationCode&redirect_uri=SomeRedirectUri&client_id=SomeClientId&client_secret=SomeClientSecret"
 ```
 
 > The returned `JSON` will look something like
